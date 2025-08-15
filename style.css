@@ -1,0 +1,161 @@
+body {
+	margin: 0px;
+	border: none;
+	padding: 8px;
+	font-family: Helvetica, Arial, sans-serif;
+	color: #fff;
+	background-color: #000;
+}
+
+
+
+
+nav {
+	position: sticky;
+	top: -5px;
+	margin-bottom: 4px;
+	border: 1px solid #555;
+	padding: 0px;
+	border-radius: 5px;
+	background-color: #111;
+
+
+
+	div.path {
+		height: 16px;
+		border-bottom: 1px solid #555;
+		padding: 4px;
+		padding-left: 8px;
+	}
+
+
+
+	div.pages {
+		& > div {
+			position: relative;
+			display: inline-block;
+			height: 32px;
+			margin: 0px;
+			border: none;
+			padding: 0px;
+
+			& > a {
+				display: inline-block;
+				min-width: 112px;
+				height: 16px;
+				margin: 0px;
+				border: none;
+				padding: 8px;
+				border-radius: 4px;
+				text-align: center;
+				text-decoration: none;
+				color: #fff;
+				background-color: #0000;
+			}
+
+			& > a:hover {
+				background-color: #333;
+			}
+
+			& > div.dropdown {
+				position: absolute;
+				top: 37px;
+				left: -1px;
+				display: none;
+				min-width: 256px;
+				border: 1px solid #555;
+				border-radius: 5px;
+				background-color: #111;
+			}
+
+			& > div.dropdown::after {
+				content: "";
+				position: absolute;
+				top: -10px;
+				left: -0px;
+				width: 128px;
+				height: 14px;
+				background-color: #0000;
+			}
+		}
+
+		& > div:hover {
+			border-radius: 4px;
+			background-color: #222;
+
+			& > div.dropdown {
+				display: block;
+			}
+		}
+
+
+		& div.dropdown {
+			& > div {
+				position: relative;
+				display: block;
+				height: 24px;
+				margin: 0px;
+				padding: 0px;
+
+				& > a {
+					display: inline-block;
+					min-width: 240px;
+					height: 16px;
+					margin: 0px;
+					border: none;
+					padding: 4px;
+					padding-left: 8px;
+					padding-right: 8px;
+					border-radius: 4px;
+					text-decoration: none;
+					color: #fff;
+					background-color: #0000;
+				}
+
+				& > a:hover {
+					background-color: #333;
+				}
+
+				& > div.dropdown {
+					position: absolute;
+					top: -1px;
+					right: -262px;
+					display: none;
+					min-width: 256px;
+					border: 1px solid #555;
+					border-radius: 5px;
+					background-color: #111;
+				}
+
+				& > div.dropdown::after {
+					content: "";
+					position: absolute;
+					top: 0px;
+					left: -9px;
+					width: 14px;
+					height: 24px;
+					background-color: #0000;
+				}
+			}
+
+			& > div:hover {
+				border-radius: 4px;
+				background-color: #222;
+
+				& > div.dropdown {
+					display: block;
+				}
+			}
+		}
+	}
+}
+
+
+
+
+select {
+	border: 1px solid #aaa;
+	border-radius: 4px;
+	color: #fff;
+	background-color: #555;
+}

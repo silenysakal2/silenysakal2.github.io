@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+
+<html>
+	<head>
+		<meta type="encoding" charset="utf-8" />
+		<title>silenysakal</title>
+		<link rel="stylesheet" href="./style.css" />
+	</head>
+	<body>
+		<nav class="nav">
+			<!--<div class="path">Index</div>-->
+			<div class="pages" id="navbar-pages">Navbar content placeholder (hope it'll load soon)</div>
+		</nav>
+		<script>
+			const PATH_TO_ROOT = "./";
+			fetch("./navbar.html")
+				.then(response => response.text())
+				.then(html => {
+					html = html.replaceAll(/(href="|src=")\.\//g, "$1" + PATH_TO_ROOT);
+					document.getElementById("navbar-pages").innerHTML = html;
+				});
+		</script>
+
+
+		<h1>Music generator</h1>
+		
+		<p>
+			music-gen is the repo, but it's not been published yet.
+		</p>
+		<a href="./projects/music-gen.html">More about that here</a>
+
+
+		<h1>Sillable</h1>
+		
+		<p>
+			I have a dream of once finishing this gigantic computing tool. It's not very likely in the following years, I want to first ge through making my own GUI library.
+		</p>
+		<a href="./projects/sillable.html">Something about Sillable</a>
+	</body>
+</html>
