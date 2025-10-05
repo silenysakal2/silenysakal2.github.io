@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+
+<html>
+	<head>
+		<meta type="encoding" charset="utf-8" />
+		<title>silenysakal</title>
+		<link rel="stylesheet" href="../../style.css" />
+	</head>
+	<body>
+		<nav class="nav">
+			<!--<div class="path">Index</div>-->
+			<div class="pages" id="navbar-pages">Navbar content placeholder (hope it'll load soon)</div>
+		</nav>
+		<script>
+			const PATH_TO_ROOT = "../../";
+			fetch("../../navbar.html")
+				.then(response => response.text())
+				.then(html => {
+					html = html.replaceAll(/(href="|src=")\.\//g, "$1" + PATH_TO_ROOT);
+					document.getElementById("navbar-pages").innerHTML = html;
+				});
+		</script>
+
+
+		Hello there!
+	</body>
+</html>
