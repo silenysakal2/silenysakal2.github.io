@@ -159,3 +159,17 @@ select {
 	color: #fff;
 	background-color: #555;
 }
+
+
+
+.code {
+	margin: 2px;
+	border: 1px solid #aaa;
+	padding: 2px;
+	font-family: "Courier New", Courier, monospace;
+	border-radius: 4px;
+}
+
+div.tabbed {
+	margin-left: 64px;
+}

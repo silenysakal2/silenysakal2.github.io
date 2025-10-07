@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+
+<html>
+	<head>
+		<meta type="encoding" charset="utf-8" />
+		<title>SQL Cheat Sheet</title>
+		<link rel="stylesheet" href="./style.css" />
+	</head>
+	<body>
+		<nav class="nav">
+			<!--<div class="path">Index</div>-->
+			<div class="pages" id="navbar-pages">Navbar content placeholder (hope it'll load soon)</div>
+		</nav>
+		<script>
+			const PATH_TO_ROOT = "./";
+			fetch("./navbar.html")
+				.then(response => response.text())
+				.then(html => {
+					html = html.replaceAll(/(href="|src=")\.\//g, "$1" + PATH_TO_ROOT);
+					document.getElementById("navbar-pages").innerHTML = html;
+				});
+		</script>
+
+
+		<span class="code">;</span> ukončuje příkaz, který by jinak šel na další řádek.
+
+		<h2>Obecné</h2>
+		<p style="line-height: 200%;">
+			<span class="code">C:\xampp\mysql\bin\mysql -u root</span>
+			<span class="code">quit;</span><br/>
+			<span class="code">help;</span><br/>
+			<span class="code">status;</span> (stav serveru)
+		</p>
+
+		<h2>Databáze</h2>
+		<p style="line-height: 200%;">
+			<span class="code">show databases;</span><br/>
+			<span class="code">create database [jméno databáze];</span><br/>
+			<span class="code">use [jméno databáze];</span><br/>
+			<span class="code">drop database [jméno databáze];</span>&nbsp;&ndash;&nbsp;smaže databázi
+		</p>
+
+		<h2>Tabulky</h2>
+
+		<h3>Prohlížení</h3>
+		<p style="line-height: 200%;">
+			<span class="code">show tables;</span><br/>
+			<span class="code">create table [jméno tabulky];</span><br/>
+			<span class="code">select * from [jméno tabulky];</span><br/>
+			<span class="code">select [jméno sloupečku],[jméno sloupečku],[jméno sloupečku] from [jméno tabulky];</span><br/>
+			<span class="code">select [sloupečky] from [jméno tabulky] where [jméno číselného sloupečku] &gt; 1000);</span><br/>
+			<span class="code">select [sloupečky] from [jméno tabulky] where (sin([jméno číselného sloupečku]) &gt; -0.5) and ([jméno číselného sloupečku] &gt; 1000);</span><br/>
+			<span class="code">true</span>, <span class="code">false</span>, <span class="code">and</span>, <span class="code">or</span>, <span class="code">not</span>, <span class="code">xor</span><br/>
+			<span class="code">[jméno textového sloupečku] like "_ahoj%"</span>: <span class="code">_</span> je jeden lib. znak, <span class="code">%</span> je lib počet (i 0) lib. znaků<br/>
+			<span class="code">select COUNT(*) from [jméno tabulky];</span><br/>
+			<span class="code">select COUNT(*) from [jméno tabulky] where [podmínka];</span><br/>
+			<span class="code">COUNT(*)</span>,<span class="code">SUM([sloupeček])</span>, <span class="code">AVG([sloupeček])</span>, <span class="code">MIN([sloupeček])</span>, <span class="code">MAX([sloupeček])</span>, <span class="code">COUNT(*)</span>
+		</p>
+
+		<h3>Vytváření</h3>
+		<p>
+			<div class="code">
+				create table [jméno tabulky] (
+				<div class="tabbed">
+					[jméno sloupečku] [typ] [případně další parametry],<br/>
+					[jméno sloupečku] [typ] [případně další parametry],<br/>
+					[jméno sloupečku] [typ] [případně další parametry],<br/>
+					[jméno sloupečku] [typ] [případně další parametry]
+				</div>
+				);
+			</div>
+		</p>
+		<span class="code">primary key</span>&nbsp;&ndash;&nbsp;učiní daný sloupeček jednoznačným v hodnotách. Podle něj se bude řadit.
+		<h4>Typy</h4>
+		<p style="line-height: 200%;">
+			<span class="code">smallint</span>&nbsp;&ndash;&nbsp;16-bitový integer (-32&nbsp;768&ndash;32&nbsp;767)<br/>
+			<span class="code">mediumint</span>&nbsp;&ndash;&nbsp;24-bitový integer (-8&nbsp;388&nbsp;608&ndash;8&nbsp;388&nbsp;607)<br/>
+			<span class="code">int</span>&nbsp;&ndash;&nbsp;32-bitový integer (-2&nbsp;147&nbsp;483&nbsp;648&ndash;2&nbsp;147&nbsp;483&nbsp;647)<br/>
+			<span class="code">bigint</span>&nbsp;&ndash;&nbsp;64-bitový integer (&sim;-9.223e18&ndash;9.223e18)<br/>
+			<span class="code">float</span>&nbsp;&ndash;&nbsp;32-bitový float<br/>
+			<span class="code">double</span>&nbsp;&ndash;&nbsp;64-bitový float<br/>
+			<span class="code">char(n)</span>&nbsp;&ndash;&nbsp;Až <i>n</i> znaků, přičemž <i>n</i> &leq; 255<br/>
+			<span class="code">varchar(n)</span>&nbsp;&ndash;&nbsp;Až <i>n</i> znaků, přičemž <i>n</i> &leq; 65&nbsp;535<br/>
+			<span class="code">mediumblob</span>&nbsp;&ndash;&nbsp;Až &sim;16e6 znaků<br/>
+			<span class="code">longblob</span>&nbsp;&ndash;&nbsp;Až &sim;4e9 znaků<br/>
+			<span class="code">year(2)</span>&nbsp;&ndash;&nbsp;rok jako string (__; od roku 1970 do 2069)<br/>
+			<span class="code">year(4)</span>&nbsp;&ndash;&nbsp;rok; od 1901 do 2155<br/>
+			<span class="code">date</span>&nbsp;&ndash;&nbsp;rok-měsíc-den jako string (____-__-__; do roku 9999)<br/>
+			<span class="code">datetime</span>&nbsp;&ndash;&nbsp;rok-měsíc-den h:m:s (____-__-__ __:__:__)<br/>
+			<span class="code">timestamp</span>&nbsp;&ndash;&nbsp;unixový 32-bitový čas v sekundách od r. 1970; končí rokem 2038<br/>
+		</p>
+
+		<h3>Hodnoty v tabulce</h3>
+		<p style="line-height: 200%;">
+			<span class="code">insert into [jméno tabulky] values ([hodnota sloupečku], [hodnota sl.], [hodnota], [h.]);</span><br/>
+			<span class="code">update [jméno tabulky] set [jméno sloupečku]=[výraz, mj. se jmény sloupečků] where [podmínka];</span><br/>
+			<span class="code">delete from [jméno tabulky] where [podmínka];</span><br/>
+		</p>
+
+		<h3>Další</h3>
+		<p style="line-height: 200%;">
+			<span class="code">drop table [jméno tabulky];</span>&nbsp;&ndash;&nbsp;smaže tabulku<br/>
+			<span class="code">alter table [jméno tabulky] add [jméno sloupečku] [typ];</span><br/>
+			<span class="code">alter table [jméno tabulky] add [jméno sloupečku] [typ] after [jméno předchzího sloupečku];</span><br/>
+			<span class="code">alter table [jméno tabulky] add [jméno sloupečku] [typ] first;</span><br/>
+			<span class="code">alter table [jméno tabulky] change [jméno sloupečku] [nové jméno sloupečku] [nový typ];</span><br/>
+			<span class="code">alter table [jméno tabulky] drop [jméno sloupečku];</span><br/>
+			<a href="https://dev.mysql.com/doc/refman/8.4/en/alter-table.html">Další příklady alter table</a>
+		</p>
+	</body>
+</html>
