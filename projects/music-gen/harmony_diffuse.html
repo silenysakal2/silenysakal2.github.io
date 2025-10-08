@@ -5,6 +5,55 @@
 		<meta type="encoding" charset="utf-8" />
 		<title>silenysakal</title>
 		<link rel="stylesheet" href="../../style.css" />
+
+		<style>
+			div.block {
+				display: inline-block;
+				vertical-align: top;
+				margin: 8px;
+				border: 1px solid #555;
+				padding: 4px;
+				border-radius: 4px;
+				background-color: #222;
+			}
+			div.bar {
+				height: 16px;
+				margin-bottom: 4px;
+				border: 1px solid #fff;
+				border-radius: 4px;
+				background-color: #555;
+			}
+
+			button {
+				margin: 2px;
+				border: 1px solid #aaa;
+				padding: 2px;
+				font-size: 16px;
+				border-radius: 4px;
+				color: #fff;
+				background-color: #555;
+			}
+			button:hover {
+				border-color: #fff;
+			}
+			button:active {
+				background-color: #aaa;
+			}
+
+			input[type=number] {
+				width: 64px;
+				margin: 2px;
+				border: 1px solid #aaa;
+				padding: 2px;
+				font-size: 16px;
+				border-radius: 4px;
+				color: #fff;
+				background-color: #333;
+			}
+			input[type=number]:hover {
+				border-color: #fff;
+			}
+		</style>
 	</head>
 	<body>
 		<nav class="nav">
@@ -22,6 +71,119 @@
 		</script>
 
 
-		Hello there!
+
+		<div id="bars" class="block" style="width: 50%;"></div><div class="block">
+			<button onclick="new_random_weights(); display_weights();">New random weights</button><br/>
+			<button onclick="iterate(); display_weights();">Iterate once</button> <button onclick="iterate_multiple(); display_weights();">Iterate this many times:</button> <input id="iteration-count" type="number" min="1" step="1" value="8" />
+		</div>
+
+
+
+		<script>
+			var bars_div = document.getElementById("bars");
+			var bars_divs = [];
+			for(let i = 0; i < 48; i++) {
+				let new_div = document.createElement("div");
+				new_div.setAttribute("class", "bar");
+				bars_div.appendChild(new_div);
+				bars_divs.push(new_div);
+			}
+
+
+
+			var weights = [];
+
+
+			function new_random_weights() {
+				for(let i = 0; i < 48; i++)
+					weights[i] = 1 + Math.random();
+			}
+
+
+			function relation_ptolemaic(pitch_d)
+			{
+				let OCTAVE_LOCAL_NONTWO = [
+					0, // Unison
+					8, // Minor second (16:15)
+					6, // Major second (9:8)
+					8, // Minor third (6:5)
+					5, // Major third (5:4)
+					3, // Perfect fourth (4:3)
+					11, // The one in between (45:32 or 64:45; I'm picking the first)
+					3, // Perfect fifth (3:2)
+					5, // Minor sixth (8:5)
+					8, // Major sixth (5:3)
+					6, // Minor seventh (16:9)
+					8, // Major seventh (15:8)
+				];
+				let OCTAVE_LOCAL_TWOES = [
+					0, // Unison
+					4, // Minor second (16:15)
+					-3, // Major second (9:8)
+					1, // Minor third (6:5)
+					-2, // Major third (5:4)
+					2, // Perfect fourth (4:3)
+					-5, // The one in between (45:32 or 64:45; I'm picking the first)
+					-1, // Perfect fifth (3:2)
+					3, // Minor sixth (8:5)
+					0, // Major sixth (5:3)
+					4, // Minor seventh (16:9)
+					-3, // Major seventh (15:8)
+				];
+
+				let octave_relative = (pitch_d >= 0) ? (pitch_d % 12) : (pitch_d % 12 + 12);
+				let octaves = Math.floor((pitch_d - octave_relative) / 12);
+				return OCTAVE_LOCAL_NONTWO[octave_relative] + (2 * Math.abs(octaves + OCTAVE_LOCAL_TWOES[octave_relative]));
+			}
+
+
+			function iterate() {
+				let weights2 = Array(48); for(let i = 0; i < 48; i++) weights2[i] = weights[i];
+				for(let a = 0; a < 48; a++)
+					for(let b = a+1; b < 48; b++) {
+						let sub = relation_ptolemaic(b - a) * weights[a] * weights[b] / 4096;
+						weights2[a] -= sub;
+						weights2[b] -= sub;
+					}
+
+				let sum = 0;
+				for(let i = 0; i < 48; i++)
+					sum += weights2[i];
+				let mul = 1.5 / (sum / 48);
+
+				for(let i = 0; i < 48; i++)
+					weights[i] = weights2[i] * mul;
+			}
+
+
+
+			function iterate_multiple() {
+				let count = document.getElementById("iteration-count").value;
+				for(let i = 0; i < count; i++)
+					iterate();
+			}
+
+
+			const MAX_WEIGHT_DISPLAY = 8;
+			function display_weights() {
+				///Making a deep copy of weights (there is no better way D:)
+				let weights2 = Array(48);
+				for(let i = 0; i < 48; i++)
+					weights2[i] = weights[i];
+				weights2.sort();
+				let treshold_i;
+				let sum = 0;
+				for(treshold_i = 47; (sum < 1.5 * 48 / 2) && (treshold_i >= 0); treshold_i--)
+					sum += weights2[treshold_i];
+				let treshold = weights2[treshold_i];
+				for(let i = 0; i < 48; i++) {
+					let clr = "background-color:" + ((weights[i] > treshold) ? "#5f5" : "#555") + ";";
+					bars_divs[i].setAttribute("style", "width:" + String(weights[i] / MAX_WEIGHT_DISPLAY * 100) + "%;" + clr);
+				}
+			}
+
+			new_random_weights();
+			display_weights();
+		</script>
 	</body>
 </html>
