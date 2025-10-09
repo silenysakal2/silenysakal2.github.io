@@ -17,11 +17,36 @@
 				background-color: #222;
 			}
 			div.bar {
-				height: 16px;
-				margin-bottom: 4px;
+				height: 14px;
+				margin-top: 4px;
 				border: 1px solid #fff;
 				border-radius: 4px;
 				background-color: #555;
+			}
+			div.bar:hover {
+				background-color: #666;
+			}
+			div.bar:active {
+				background-color: #aaa;
+			}
+			div.tone-accepted {
+				background-color: #0f0;
+			}
+			div.tone-accepted:hover {
+				background-color: #5f5;
+			}
+			div.tone-accepted:active {
+				background-color: #afa;
+			}
+
+			div.treshold {
+				position: absolute;
+				bottom: 1px;
+				width: 3px;
+				height: 960px;
+				border: 2px solid transparent;
+				border-radius: 3px;
+				border-right-color: #f00;
 			}
 
 			button {
@@ -53,10 +78,21 @@
 			input[type=number]:hover {
 				border-color: #fff;
 			}
+
+			input[type=range] {
+				margin: 4px;
+				accent-color: #555;
+			}
+
+			input[type=checkbox] {
+				border: 1px solid #aaa;
+				border-radius: 16px;
+				accent-color: #555;
+			}
 		</style>
 	</head>
 	<body>
-		<nav class="nav">
+		<nav class="nav" style="z-index: 2;">
 			<!--<div class="path">Index</div>-->
 			<div class="pages" id="navbar-pages">Navbar content placeholder (hope it'll load soon)</div>
 		</nav>
@@ -72,19 +108,55 @@
 
 
 
-		<div id="bars" class="block" style="width: 50%;"></div><div class="block">
-			<button onclick="new_random_weights(); display_weights();">New random weights</button><br/>
-			<button onclick="iterate(); display_weights();">Iterate once</button> <button onclick="iterate_multiple(); display_weights();">Iterate this many times:</button> <input id="iteration-count" type="number" min="1" step="1" value="8" />
+		<div id="bars" class="block" style="width: 50%; position: relative;"><div style="margin-left: -8px; margin-right: -20px;"><input id="treshold-input" type="range" min="0" max="8" value="1.25" step="any" onchange="display_treshold(true);" oninput="display_treshold(false);" style="width: 100%; margin-left: 0px;" /></div><div id="treshold" class="treshold"></div></div><div style="width: calc(50% - 52px);" class="block">
+			<button onclick="new_random_weights(); display_weights(); display_treshold(true);">New random weights</button><br/>
+			<button onclick="iterate(); display_weights(); display_treshold(true);">Iterate once</button><button onclick="iterate_multiple(); display_weights(); display_treshold(true);">Iterate this many times:</button><input id="iteration-count" type="number" min="1" step="1" value="8" /><br/>
+			<input id="dynamic-treshold-update" type="checkbox" /> <label for="dynamic-treshold-update">Dynamic treshold update</label><br/>
+			<button onclick="play();">Play</button><br/>
+			<h4>How to use</h4>
+			<p>
+				Use the "New random weights" button to start; random weights are generated when the page is loaded. You can click on the bars on the left to play their corresponding tones. Press the "Iterate" buttons to, well, do iterations untill you like the harmony. If the bars go out of the box, remember: it's not a bug. It's a feature.
+			</p>
+			<p>
+				The (red) treshold can be moved with the slider on the top. To make tones colour green/grey while holding the slider, enable "Dynamic treshold update".
+			</p>
+			<p>
+				After you are done, you can play all the tones over the treshold (green bars) with the "Play button."
+			</p>
+			<h4>About harmony diffuse</h4>
+			<p>
+				Let's start by giving each of 48 tones (semitones) a weight randomly. Then, make "iterations" that improve the harmony. By that I mean: if there's a strong tone A and a weaker tone B, with the two being very disharmonic, B should be surpressed.
+			</p>
+			<p>
+				In practice, this is done like such: have a model for disharmony (in this case based on ptolemaic tuning), multiply the output by the weight of A, and also by the weight of B so it doesn't go negative, finally, divide by an arbitrary constant to make a small enough step and subtract this from B. And after having done this for all the tone pairs, scale them all up so their sum is preserved.
+			</p>
+			<p>
+				Every iteration like this should improve the harmony. Finally, a treshold for weights is chosen and every tone with a great enough weight gets added into the chord.
+			</p>
+			<p>
+				As for the ptolemaic mode for disharmony: it simply takes the frequency ratio of the two tones (the tones are actually well-temperament; it's always rounded to the closest ptolemaic), takes separately the divisor and divider, splits them into prime factors, and adds all the prime factors up.
+			</p>
+			<h4>Known bugs</h4>
+			- The slider is out of bounds<br/>
+			- The treshold red line isn't actually accurate (but I figured it'd be more annoying if it was misaligned with the slider)<br/>
+			- This list isn't an &lt;ul&gt; actually<br/>
+			- The boxes are misaligned with the navbar<br/>
+			- The bars reach out of bounds (though that's a feature)<br/>
+			And you know what? I don't care :D.
 		</div>
 
 
 
+		<script src="https://cdn.jsdelivr.net/npm/soundfont-player/dist/soundfont-player.js"></script> <!-- Sound font -->
 		<script>
 			var bars_div = document.getElementById("bars");
 			var bars_divs = [];
 			for(let i = 0; i < 48; i++) {
 				let new_div = document.createElement("div");
 				new_div.setAttribute("class", "bar");
+				new_div.addEventListener("click", function (e) {
+					play(i);
+				});
 				bars_div.appendChild(new_div);
 				bars_divs.push(new_div);
 			}
@@ -166,24 +238,61 @@
 
 			const MAX_WEIGHT_DISPLAY = 8;
 			function display_weights() {
-				///Making a deep copy of weights (there is no better way D:)
-				let weights2 = Array(48);
 				for(let i = 0; i < 48; i++)
-					weights2[i] = weights[i];
-				weights2.sort();
-				let treshold_i;
-				let sum = 0;
-				for(treshold_i = 47; (sum < 1.5 * 48 / 2) && (treshold_i >= 0); treshold_i--)
-					sum += weights2[treshold_i];
-				let treshold = weights2[treshold_i];
+					bars_divs[i].setAttribute("style", "width:" + String(weights[i] / MAX_WEIGHT_DISPLAY * 100) + "%;");
+			}
+
+
+			function display_treshold(major) {
+				let treshold = document.getElementById("treshold-input").value;
+				document.getElementById("treshold").setAttribute("style", "left:" + String(treshold / MAX_WEIGHT_DISPLAY * 100) + "%;");
+				if(!major)
+					if(!document.getElementById("dynamic-treshold-update").checked)
+						return;
 				for(let i = 0; i < 48; i++) {
-					let clr = "background-color:" + ((weights[i] > treshold) ? "#5f5" : "#555") + ";";
-					bars_divs[i].setAttribute("style", "width:" + String(weights[i] / MAX_WEIGHT_DISPLAY * 100) + "%;" + clr);
+					if(weights[i] > treshold)
+						bars_divs[i].setAttribute("class", "bar tone-accepted");
+					else
+						bars_divs[i].setAttribute("class", "bar");
 				}
 			}
 
+
+			function sleep(ms) {
+				return new Promise(resolve => setTimeout(resolve, ms));
+			}
+
+			var ac, piano_sf;
+			var sound_initialized = false;
+			const tone_names = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
+			async function play(tone = -1) {
+				if(!sound_initialized) {
+					ac = new (window.AudioContext || window.webkitAudioContext)();
+					sound_initialized = true;
+					console.log("initialized");
+					Soundfont.instrument(ac, 'acoustic_grand_piano').then(piano => {
+						piano_sf = piano;
+						play(tone);
+					});
+				}
+				else if(tone == -1) {
+					let treshold = document.getElementById("treshold-input").value;
+					for(let i = 0; i < 48; i++)
+						if(weights[i] > treshold) {
+							play(i);
+							await sleep(16);
+						}
+				}
+				else {
+					piano_sf.play(tone_names[tone % 12] + String(Math.floor(tone / 12) + 3));
+				}
+			}
+
+
+
 			new_random_weights();
 			display_weights();
+			display_treshold(true);
 		</script>
 	</body>
 </html>
