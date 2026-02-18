@@ -11,6 +11,7 @@ body {
 
 
 nav {
+	z-index: 256;
 	position: sticky;
 	top: -5px;
 	margin-bottom: 4px;
@@ -40,6 +41,8 @@ nav {
 			padding: 0px;
 
 			& > a {
+				z-index: 259;
+				position: relative;
 				display: inline-block;
 				min-width: 112px;
 				height: 16px;
@@ -58,6 +61,7 @@ nav {
 			}
 
 			& > div.dropdown {
+				z-index: 257;
 				position: absolute;
 				top: 37px;
 				left: -1px;
@@ -69,6 +73,7 @@ nav {
 			}
 
 			& > div.dropdown::after {
+				z-index: 258;
 				content: "";
 				position: absolute;
 				top: -10px;
@@ -98,6 +103,8 @@ nav {
 				padding: 0px;
 
 				& > a {
+					z-index: 259;
+					position: relative;
 					display: inline-block;
 					min-width: 240px;
 					height: 16px;
@@ -117,6 +124,7 @@ nav {
 				}
 
 				& > div.dropdown {
+					z-index: 257;
 					position: absolute;
 					top: -1px;
 					right: -262px;
@@ -128,6 +136,7 @@ nav {
 				}
 
 				& > div.dropdown::after {
+					z-index: 258;
 					content: "";
 					position: absolute;
 					top: 0px;
