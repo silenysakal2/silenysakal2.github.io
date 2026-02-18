@@ -127,7 +127,7 @@ nav {
 					z-index: 257;
 					position: absolute;
 					top: -1px;
-					right: -262px;
+					right: -263px;
 					display: none;
 					min-width: 256px;
 					border: 1px solid #555;
@@ -140,7 +140,7 @@ nav {
 					content: "";
 					position: absolute;
 					top: 0px;
-					left: -9px;
+					left: -10px;
 					width: 14px;
 					height: 24px;
 					background-color: #0000;
