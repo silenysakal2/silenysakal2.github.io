@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+
+<html>
+	<head>
+		<meta type="encoding" charset="utf-8" />
+		<title>silenysakal</title>
+		<link rel="stylesheet" href="../../style.css" />
+	</head>
+	<body>
+		<nav class="nav">
+			<!--<div class="path">Index</div>-->
+			<div class="pages" id="navbar-pages">Navbar content placeholder (hope it'll load soon)</div>
+		</nav>
+		<script>
+			const PATH_TO_ROOT = "../../";
+			fetch("../../navbar.html")
+				.then(response => response.text())
+				.then(html => {
+					html = html.replaceAll(/(href="|src=")\.\//g, "$1" + PATH_TO_ROOT);
+					document.getElementById("navbar-pages").innerHTML = html;
+				});
+		</script>
+
+
+
+		<h1 id="generating_a_harmony">Generating a harmony</h1>
+			Yes, the harmonies tent to be pitch-shifted versions of the same. This is fixed later, by making target relations.
+			<h2>Setting I</h2>
+				64 tones, normal complexity
+				<ul>
+					<li>
+						<audio controls>
+							<source src="samples/64harmony0a.wav" />
+							Your browser seems to not support the audio element.
+						</audio>
+					</li>
+					<li>
+						<audio controls>
+							<source src="samples/64harmony0b.wav" />
+							Your browser seems to not support the audio element.
+						</audio>
+					</li>
+					<li>
+						<audio controls>
+							<source src="samples/64harmony0c.wav" />
+							Your browser seems to not support the audio element.
+						</audio>
+					</li>
+					<li>
+						<audio controls>
+							<source src="samples/64harmony0d.wav" />
+							Your browser seems to not support the audio element.
+						</audio>
+					</li>
+					<li>
+						<audio controls>
+							<source src="samples/64harmony0e.wav" />
+							Your browser seems to not support the audio element.
+						</audio>
+					</li>
+					<li>
+						<audio controls>
+							<source src="samples/64harmony0f.wav" />
+							Your browser seems to not support the audio element.
+						</audio>
+					</li>
+					<li>
+						<audio controls>
+							<source src="samples/64harmony0g.wav" />
+							Your browser seems to not support the audio element.
+						</audio>
+					</li>
+					<li>
+						<audio controls>
+							<source src="samples/64harmony0h.wav" />
+							Your browser seems to not support the audio element.
+						</audio>
+					</li>
+				</ul>
+			<h2>Setting II</h2>
+				Greater target complexity
+				<ul>
+					<li>
+						<audio controls>
+							<source src="samples/64harmony1a.wav" />
+							Your browser seems to not support the audio element.
+						</audio>
+					</li>
+					<li>
+						<audio controls>
+							<source src="samples/64harmony1b.wav" />
+							Your browser seems to not support the audio element.
+						</audio>
+					</li>
+					<li>
+						<audio controls>
+							<source src="samples/64harmony1c.wav" />
+							Your browser seems to not support the audio element.
+						</audio>
+					</li>
+					<li>
+						<audio controls>
+							<source src="samples/64harmony1d.wav" />
+							Your browser seems to not support the audio element.
+						</audio>
+					</li>
+					<li>
+						<audio controls>
+							<source src="samples/64harmony1e.wav" />
+							Your browser seems to not support the audio element.
+						</audio>
+					</li>
+					<li>
+						<audio controls>
+							<source src="samples/64harmony1f.wav" />
+							Your browser seems to not support the audio element.
+						</audio>
+					</li>
+					<li>
+						<audio controls>
+							<source src="samples/64harmony1g.wav" />
+							Your browser seems to not support the audio element.
+						</audio>
+					</li>
+					<li>
+						<audio controls>
+							<source src="samples/64harmony1h.wav" />
+							Your browser seems to not support the audio element.
+						</audio>
+					</li>
+				</ul>
+			<h2>Setting III</h2>
+				Very, very small target complexity
+				<ul>
+					<li>
+						<audio controls>
+							<source src="samples/64harmony2a.wav" />
+							Your browser seems to not support the audio element.
+						</audio>
+					</li>
+					<li>
+						<audio controls>
+							<source src="samples/64harmony2b.wav" />
+							Your browser seems to not support the audio element.
+						</audio>
+						(yes, it generated as the exact same)
+					</li>
+					<li>
+						<audio controls>
+							<source src="samples/64harmony2c.wav" />
+							Your browser seems to not support the audio element.
+						</audio>
+					</li>
+					<li>
+						<audio controls>
+							<source src="samples/64harmony2d.wav" />
+							Your browser seems to not support the audio element.
+						</audio>
+					</li>
+				</ul>
+			<h2>Setting IV</h2>
+				Starved for iteration count
+				<ul>
+					<li>
+						<audio controls>
+							<source src="samples/64harmony3a.wav" />
+							Your browser seems to not support the audio element.
+						</audio>
+					</li>
+					<li>
+						<audio controls>
+							<source src="samples/64harmony3b.wav" />
+							Your browser seems to not support the audio element.
+						</audio>
+					</li>
+					<li>
+						<audio controls>
+							<source src="samples/64harmony3c.wav" />
+							Your browser seems to not support the audio element.
+						</audio>
+					</li>
+					<li>
+						<audio controls>
+							<source src="samples/64harmony3d.wav" />
+							Your browser seems to not support the audio element.
+						</audio>
+					</li>
+				</ul>
+			<h2>Setting V</h2>
+				Randomized target complexities
+				<ul>
+					<li>
+						<audio controls>
+							<source src="samples/64harmony4a.wav" />
+							Your browser seems to not support the audio element.
+						</audio>
+					</li>
+					<li>
+						<audio controls>
+							<source src="samples/64harmony4b.wav" />
+							Your browser seems to not support the audio element.
+						</audio>
+					</li>
+					<li>
+						<audio controls>
+							<source src="samples/64harmony4c.wav" />
+							Your browser seems to not support the audio element.
+						</audio>
+					</li>
+					<li>
+						<audio controls>
+							<source src="samples/64harmony4d.wav" />
+							Your browser seems to not support the audio element.
+						</audio>
+					</li>
+				</ul>
+	</body>
+</html>
