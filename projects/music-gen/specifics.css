@@ -1,0 +1,129 @@
+div.tree {
+	margin-top: 16px;
+	margin-bottom: 16px;
+}
+
+div.unit {
+	display: inline-block;
+	line-height: 0px;
+	margin-top: 6px;
+	margin-left: 2px;
+	margin-right: 2px;
+	width: 4px;
+	height: 8px;
+	background-color: #fff;
+
+	& + div.unit {
+		margin-left: 6px;
+	}
+}
+
+.compact div.unit {
+	margin-top: 4px;
+	margin-left: 0px;
+	margin-right: 0px;
+	width: 2px;
+	height: 4px;
+
+	& + div.unit {
+		margin-left: 2px;
+	}
+}
+
+.dimmed div.unit {
+	background-color: #555;
+
+	&.active {
+		background-color: #fff;
+		box-shadow: 0 0 2px #fff;
+	}
+}
+
+div.branch {
+	display: inline-block;
+	line-height: 0px;
+	margin-top: 6px;
+	background-color: #fff;
+	height: 2px;
+
+	& + div.branch {
+		margin-left: 4px;
+	}
+}
+
+.compact div.branch {
+	margin-top: 4px;
+
+	& + div.branch {
+		margin-left: 2px;
+	}
+}
+
+.dimmed div.branch {
+	background-color: #555;
+
+	&.active0 {
+		background-color: #f00;
+		box-shadow: 0 0 2px #f00;
+	}
+	&.active1 {
+		background-color: #ff0;
+		box-shadow: 0 0 2px #ff0;
+	}
+	&.active2 {
+		background-color: #0f0;
+		box-shadow: 0 0 2px #0f0;
+	}
+	&.active3 {
+		background-color: #0ff;
+		box-shadow: 0 0 2px #0ff;
+	}
+	&.active4 {
+		background-color: #00f;
+		box-shadow: 0 0 2px #00f;
+	}
+	&.active5 {
+		background-color: #f0f;
+		box-shadow: 0 0 2px #f0f;
+	}
+	&.active6 {
+		background-color: #f50;
+		box-shadow: 0 0 2px #f50;
+	}
+	&.active7 {
+		background-color: #fa0;
+		box-shadow: 0 0 2px #fa0;
+	}
+	&.active8 {
+		background-color: #af0;
+		box-shadow: 0 0 2px #af0;
+	}
+	&.active9 {
+		background-color: #5f0;
+		box-shadow: 0 0 2px #5f0;
+	}
+	&.active10 {
+		background-color: #0f5;
+		box-shadow: 0 0 2px #0f5;
+	}
+	&.active11 {
+		background-color: #0fa;
+		box-shadow: 0 0 2px #0fa;
+	}
+	&.active12 {
+		background-color: #0af;
+		box-shadow: 0 0 2px #0af;
+	}
+	&.active13 {
+		background-color: #05f;
+		box-shadow: 0 0 2px #05f;
+	}
+	&.active14 {
+		background-color: #50f;
+		box-shadow: 0 0 2px #50f;
+	}
+	&.active15 {
+		background-color: #a0f;
+		box-shadow: 0 0 2px #a0f;
+	}
+}
