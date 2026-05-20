@@ -182,3 +182,50 @@ select {
 div.tabbed {
 	margin-left: 64px;
 }
+
+
+
+
+button.svg {
+	padding: 0px;
+	border: 1px solid #aaa;
+	line-height: 0px;
+	border-radius: 4px;
+	background-color: #555;
+	&:hover {
+		border-color: #fff;
+	}
+	&:active {
+		background-color: #aaa;
+	}
+}
+
+button.play {
+	box-sizing: border-box;
+	width: 32px;
+	height: 32px;
+
+	&::before {
+		display: inline-block;
+		content: "";
+		box-sizing: border-box;
+		width: 32px;
+		height: 32px;
+		transform: translate(-1px, -1px);
+		line-height: 0px;
+		mask: url("assets/play_medium.svg") no-repeat center;
+		mask-size: contain;
+		background-color: #fff;
+	}
+}
+button.playing::before {
+	display: inline-block;
+	content: "";
+	width: 32px;
+	height: 32px;
+	transform: translate(-1px, -1px);
+	line-height: 0px;
+	mask: url("assets/stop_medium.svg") no-repeat center;
+	mask-size: contain;
+	background-color: #fff;
+}

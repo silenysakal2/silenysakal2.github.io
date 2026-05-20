@@ -1,6 +1,13 @@
-div.tree {
+div.display {
 	margin-top: 16px;
 	margin-bottom: 16px;
+	& > * {
+		vertical-align: middle;
+	}
+}
+
+div.tree {
+	display: inline-block;
 }
 
 div.unit {
