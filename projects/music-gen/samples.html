@@ -502,7 +502,6 @@
 				</div>
 
 		<h1 id = "generating_a_harmonic_base">Generating a harmonic base</h1>
-			Your computer may be slow and cause the animation to desync with the audio. In that case, please wait until it seems to have caught up, then stop and play it again, it might have compiled in the meantime. If that doesn't help, it's most likely that you machine is soo slow either way, so it's DEFINITELY NOT ON ME that I should have implemented a more stable system. Also, using a faster JavaScript engine like V8 (found in Chrome, Chromium, Edge, Opera and more) could help.
 			<h2>Setting I</h2>
 				Depth 5, higher randomness, cutoff 2
 
@@ -664,22 +663,34 @@
 			var current_playing_controller;
 			var current_playing_interval;
 			var current_playing_button;
+			var current_playing_timeout;
+			var TICK_LENGTH = 457; // Milliseconds
+			var current_playing_start; // Timestamp
 
 			function step_current_tree()
 			{
+				//console.log("Desync:", Date.now() - current_playing_start - (TICK_LENGTH * (current_playing_controller.pos+1)));
 				current_playing_controller.step();
-				if(!current_playing_controller.active) {
-					current_playing_button.classList.remove("playing");
-					clearInterval(current_playing_interval);
+				if(current_playing_controller.active)
+					current_playing_timeout = setTimeout(step_current_tree, current_playing_start + (TICK_LENGTH * (current_playing_controller.pos+1)) - Date.now());
+				else {
 					playing = false;
+					current_playing_button.classList.remove("playing");
 				}
+			}
+
+			function start_playing(_ = null)
+			{
+				current_playing_start = Date.now();
+				current_playing_audio.play();
+				current_playing_timeout = setTimeout(step_current_tree, TICK_LENGTH);
 			}
 
 			function play_button(id, button)
 			{
 				if(playing) {
 					current_playing_button.classList.remove("playing");
-					clearInterval(current_playing_interval);
+					clearTimeout(current_playing_timeout);
 					current_playing_controller.deactivate();
 					current_playing_audio.pause();
 					current_playing_audio.currentTime = 0;
@@ -690,14 +701,17 @@
 					current_playing_id = id;
 					current_playing_controller = new TreeController(document.getElementById(id));
 					current_playing_controller.activate();
+					playing = true;
 					if(!audios.has(id)) {
 						let audio = new Audio("./samples/" + id + ".mp3");
 						audios[id] = audio;
+						current_playing_audio = audio;
+						audio.addEventListener("canplaythrough", start_playing());
 					}
-					current_playing_audio = audios[id];
-					current_playing_audio.play();
-					current_playing_interval = setInterval(step_current_tree, 457);
-					playing = true;
+					else {
+						current_playing_audio = audios[id];
+						start_playing();
+					}
 				}
 				else
 					playing = false;
